@@ -8,6 +8,7 @@ This is a collection of 1-file python/batch scripts for making life easier when 
 
 # General Scripts
 <h2><a href="https://github.com/9Oc/Squash-P2P-Script-Emporium/blob/main/general/globaltags.py">globaltags</a></h2>
+
 globaltags generates an mkv XML tag file containing the TMDB, IMDB, and TVDB2 IDs for a given TMDB ID.
 
 Requirements: Python 3.10+
@@ -68,7 +69,8 @@ XML file saved as: .global_tags_The Ice Harvest_2005.xml
 ```
 
 # Subtitle Scripts
-## supmapper
+<h2><a href="https://github.com/9Oc/Squash-P2P-Script-Emporium/blob/main/subtitles/supmapper.py">supmapper</a></h2>
+
 supmapper is an automatic PGS subtitle tonemapper. It will tonemap a directory (or multiple directories) of .sup files to match the brightness of a reference .sup file.
 
 Requirements: Python 3.10+
@@ -103,7 +105,8 @@ To provide multiple directories for input, simply add additional directories to 
 
 `supmapper.py "/path/to/subtitles1" "/path/to/subtitles2" "/path/to/subtitles3" --reference "/path/to/reference.sup"`
 
-## suppf
+<h2><a href="https://github.com/9Oc/Squash-P2P-Script-Emporium/blob/main/subtitles/suppf.py">suppf</a></h2>
+
 suppf is PGS subtitle palette fixer that corrects common subtitle color issues.
 
 Requirements: Python 3.6+
@@ -140,8 +143,8 @@ Fixed .sup with suppf
 
 
 # Audio Scripts
+<h2><a href="https://github.com/9Oc/Squash-P2P-Script-Emporium/blob/main/audio/gen_waveforms.py">gen_waveforms</a></h2>
 
-## gen_waveforms
 gen_waveforms will create a png image representing the waveforms of a given FLAC/WAV audio file with clipping highlighted.
 
 Requirements: Python 3.10+
@@ -161,8 +164,8 @@ An input and an output path are required arguments.
 <img src="https://img.onlyimage.org/FtvQN6.png" width="425" height="300">
 
 # Video Scripts
+<h2><a href="https://github.com/9Oc/Squash-P2P-Script-Emporium/blob/main/video/check_idr.py">check_idr</a></h2>
 
-## check_idr
 check_idr will determine if a given frame in an h264 raw stream is an IDR frame or not.
 
 Requirements: Python 3.7+
