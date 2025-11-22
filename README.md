@@ -41,6 +41,24 @@ Fixed .sup with suppf
 <img src="https://img.onlyimage.org/8qfLnZ.png" width="517" height="393">
 
 
+# Audio Scripts
+
+## gen_waveforms
+gen_waveforms will create a png image representing the waveforms of a given FLAC/WAV audio file with clipping highlighted.
+
+Requirements: Python 3.10+
+
+Dependencies:
+
+`pip install soundfile numpy matplotlib`
+
+### Usage
+An input and an output path are required arguments.
+
+`gen_waveforms.py -i input.flac -o input_waveforms.png`
+
+### Example Output
+<img src="https://img.onlyimage.org/FtvQN6.png" width="425" height="300">
 
 # Video Scripts
 
