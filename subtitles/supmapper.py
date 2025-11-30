@@ -12,8 +12,9 @@ SupMover https://github.com/MonoS/SupMover
 
 SupMover must be added to your PATH with the .exe named "SupMover.exe".
 """
-import subprocess
 import argparse
+import shutil
+import subprocess
 
 from pathlib import Path
 from SUPer import SUPFile, PDS
@@ -73,7 +74,12 @@ def tonemap(pgs: PGSFile, target_percent: float) -> Path:
     """
     user_factor = target_percent / 100
     tonemapped_file = pgs.path.parent / "Tonemapped_Subtitles" / f"{pgs.path.stem}_tonemapped.sup"
-    print(f"  Applying tonemap: {target_percent:.2f}% ({pgs.path.name})")
+    print(f"\n  {pgs.path.name}")
+    if (int(pgs.max_rgb * user_factor) == pgs.max_rgb):
+        print(f"  └── Already at target brightness: {pgs.max_rgb}")
+        shutil.copy2(pgs.path, tonemapped_file)
+        return tonemapped_file
+    print(f"  ├── Applying tonemap: {target_percent:.2f}%")
     subprocess.run(["SupMover", str(pgs.path), str(tonemapped_file), "--tonemap", str(user_factor)], check=True)
     return tonemapped_file
 
@@ -141,7 +147,6 @@ Examples:
         
         print(f"\nAnalyzing reference: {args.reference.name}")
         reference_max_rgb = find_max_rgb_in_sup(str(args.reference))
-        #reference_max_rgb = calculate_displayed_brightness(find_max_rgb_in_sup(str(args.reference)))
         print(f"  Reference max RGB: {reference_max_rgb}")
         
     elif args.percent:
@@ -165,15 +170,11 @@ Examples:
             pgs_files.append(pgs_file)
             print(f"  {pgs_file.path.name}: max RGB = {pgs_file.max_rgb}")
             
-        print("\nTonemapping subtitle files...")
+        print(f"\nTonemapping subtitle files: {input_dir}")
         for pgs in pgs_files:
-            tonemapped_pgs = None
             if args.reference:
                 target_percent = (reference_max_rgb / pgs.max_rgb) * 100
-                if reference_max_rgb != pgs.max_rgb:
-                    tonemapped_pgs = tonemap(pgs, target_percent)
-                else:
-                    tonemapped_pgs = pgs.path
+                tonemapped_pgs = tonemap(pgs, target_percent)
             elif args.percent:
                 # get the factor to multiply the target percentage by
                 # to tonemap the .sup as if it were pure white
@@ -181,14 +182,14 @@ Examples:
                     norm_factor = 255 / pgs.max_rgb
                 else:
                     norm_factor = 1.0
-    
+                
                 tonemapped_pgs = tonemap(pgs, norm_factor * target_percent)
             elif args.rgb:
                 target_percent = (args.rgb / pgs.max_rgb) * 100
                 tonemapped_pgs = tonemap(pgs, target_percent)
-                
-            print(f"  RGB after tonemap: {find_max_rgb_in_sup(tonemapped_pgs)} ({tonemapped_pgs.name}) \n")
+            tonemapped_rgb = find_max_rgb_in_sup(tonemapped_pgs)
+            if (pgs.max_rgb != tonemapped_rgb):
+                print(f"  └── RGB after tonemap: {tonemapped_rgb}")
             
         output_dir = input_dir / "Tonemapped_Subtitles"
-        print(f"Tonemapped subtitles saved to: {output_dir}\n")
-
+        print(f"\nTonemapped subtitles saved to: {output_dir}")
